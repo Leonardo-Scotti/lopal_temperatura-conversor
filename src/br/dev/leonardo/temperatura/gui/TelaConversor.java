@@ -33,7 +33,8 @@ public class TelaConversor {
 		
 		
 		//Celsius
-		
+		labelCelsius = new JLabel();
+		labelCelsius.setText("Temperatura");
 		
 		
 		
