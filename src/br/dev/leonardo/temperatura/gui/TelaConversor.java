@@ -3,12 +3,17 @@ package br.dev.leonardo.temperatura.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.MaskFormatter;
+
+import br.dev.leonardo.temperatura.model.Temperatura;
 
 public class TelaConversor {
 
@@ -19,6 +24,8 @@ public class TelaConversor {
 	private JButton buttonFahreinheit;
 	private JLabel labelResultado;
 	private JLabel labellMensagemErro;
+	private MaskFormatter mascaraApenasNumeros;
+	
 	private Font fonteTextCelsius;
 	private Font fonteLabelCelsius;
 	private Font fonteLabelResultado;
@@ -37,6 +44,13 @@ public class TelaConversor {
 
 		// Fonte Label Resultado
 		fonteLabelResultado = new Font("Arial", 1, 18);
+		
+		//Fonte Mensagem Erro
+		fonteMensagemErro = new Font("Arial", 1, 12);
+		
+		//Definindo Cores
+		//Cor do Label Mensagem de Erro
+		corLabelMensagemErro = new Color(255, 0, 0);
 
 		// Criando a Tela Gráfica
 		// Criando objeto JFrame
@@ -45,7 +59,7 @@ public class TelaConversor {
 		// Definindo o tamanho da tela
 		// através de um objeto Dimension
 		Dimension tamanho = new Dimension();
-		tamanho.setSize(500, 400);
+		tamanho.setSize(505, 400);
 
 		// Setando tamanho da tela através do Dimension
 		tela.setSize(tamanho);
@@ -59,42 +73,84 @@ public class TelaConversor {
 		labelCelsius = new JLabel();
 		labelCelsius.setFont(fonteLabelCelsius);
 		labelCelsius.setText("Temperatura em graus celsius: ");
-		labelCelsius.setBounds(40, 40, 420, 30);
+		labelCelsius.setBounds(40, 60, 420, 30);
 
 		textCelsius = new JTextField();
 		textCelsius.setFont(fonteTextCelsius);
-		textCelsius.setBounds(40, 70, 420, 40);
+		textCelsius.setBounds(40, 90, 420, 30);
 
 		// Botão Fahreinheit
 		buttonFahreinheit = new JButton();
 		buttonFahreinheit.setText("FAHREINHEIT");
-		buttonFahreinheit.setBounds(40, 120, 200, 40);
+		buttonFahreinheit.setBounds(40, 130, 200, 40);
 
 		// Botão Kelvin
 		buttonKelvin = new JButton();
 		buttonKelvin.setText("KELVIN");
-		buttonKelvin.setBounds(260, 120, 200, 40);
+		buttonKelvin.setBounds(260, 130, 200, 40);
 
 		// Resultado
 		labelResultado = new JLabel();
 		labelResultado.setFont(fonteLabelResultado);
-		labelResultado.setText("78,8 FAHREINHEIT!");
-		labelResultado.setBounds(40, 170, 420, 40);
+		labelResultado.setText("Digite um número para começar!");
+		labelResultado.setBounds(40, 190, 420, 40);
 		labelResultado.setHorizontalAlignment(SwingConstants.CENTER);
 		;
 
 		// Mensagem de erro
 		labellMensagemErro = new JLabel();
-		labellMensagemErro.setText("Mensagem de Erro!");
-		labellMensagemErro.setBounds(40, 220, 200, 40);
-
+		labellMensagemErro.setFont(fonteMensagemErro);
+		labellMensagemErro.setForeground(corLabelMensagemErro);
+		labellMensagemErro.setBounds(40, 240, 420, 40);
+		labellMensagemErro.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		//Adicionando componentes na tela
 		tela.getContentPane().add(labelCelsius);
 		tela.getContentPane().add(textCelsius);
 		tela.getContentPane().add(buttonFahreinheit);
 		tela.getContentPane().add(buttonKelvin);
 		tela.getContentPane().add(labelResultado);
 		tela.getContentPane().add(labellMensagemErro);
-
+		
+		
+		//Listener
+		//Adicionando ao botão Fahreinheit
+		buttonFahreinheit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Temperatura temperatura = new Temperatura();
+				
+				double celsius = Double.parseDouble(textCelsius.getText());
+				
+				temperatura.setCelsius(celsius);
+				
+				labelResultado.setText(temperatura.converterParaFahreinheit() + " FAHREINHEIT!");
+				textCelsius.setText(null);
+				textCelsius.requestFocus();
+			}
+		});
+		
+		//Adicionando ao botão Kelvin
+		buttonKelvin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Temperatura temperatura = new Temperatura();
+				
+				double celsius = Double.parseDouble(textCelsius.getText());
+				
+				temperatura.setCelsius(celsius);
+				
+				labelResultado.setText(temperatura.converterParaKelvin() + " KELVIN!");
+				textCelsius.setText(null);
+				textCelsius.requestFocus();
+				
+			}
+		});
+		
+		
+		//"Setando" se a tela será visível
 		tela.setVisible(true);
 	}
 
