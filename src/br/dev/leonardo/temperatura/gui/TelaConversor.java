@@ -24,7 +24,6 @@ public class TelaConversor {
 	private JButton buttonFahreinheit;
 	private JLabel labelResultado;
 	private JLabel labellMensagemErro;
-	private MaskFormatter mascaraApenasNumeros;
 
 	private Font fonteTextCelsius;
 	private Font fonteLabelCelsius;
@@ -118,9 +117,11 @@ public class TelaConversor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String valorCelsius = textCelsius.getText();				
+				//Utilizando try para um possível erro
 				try {
 					Temperatura temperatura = new Temperatura();
-					double celsius = Double.parseDouble(textCelsius.getText());
+					double celsius = Double.parseDouble(valorCelsius);
 					temperatura.setCelsius(celsius);
 
 					double fahreinheit = temperatura.converterParaFahreinheit();
@@ -143,7 +144,8 @@ public class TelaConversor {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String valorCelsius = textCelsius.getText();
-
+				
+				//Utilizando try para um possível erro
 				try {
 					Temperatura temperatura = new Temperatura();
 					double celsius = Double.parseDouble(valorCelsius);
