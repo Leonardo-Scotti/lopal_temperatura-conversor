@@ -25,7 +25,7 @@ public class TelaConversor {
 	private JLabel labelResultado;
 	private JLabel labellMensagemErro;
 	private MaskFormatter mascaraApenasNumeros;
-	
+
 	private Font fonteTextCelsius;
 	private Font fonteLabelCelsius;
 	private Font fonteLabelResultado;
@@ -44,12 +44,12 @@ public class TelaConversor {
 
 		// Fonte Label Resultado
 		fonteLabelResultado = new Font("Arial", 1, 18);
-		
-		//Fonte Mensagem Erro
-		fonteMensagemErro = new Font("Arial", 1, 12);
-		
-		//Definindo Cores
-		//Cor do Label Mensagem de Erro
+
+		// Fonte Mensagem Erro
+		fonteMensagemErro = new Font("Arial", 1, 14);
+
+		// Definindo Cores
+		// Cor do Label Mensagem de Erro
 		corLabelMensagemErro = new Color(255, 0, 0);
 
 		// Criando a Tela Gráfica
@@ -103,54 +103,66 @@ public class TelaConversor {
 		labellMensagemErro.setForeground(corLabelMensagemErro);
 		labellMensagemErro.setBounds(40, 240, 420, 40);
 		labellMensagemErro.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		//Adicionando componentes na tela
+
+		// Adicionando componentes na tela
 		tela.getContentPane().add(labelCelsius);
 		tela.getContentPane().add(textCelsius);
 		tela.getContentPane().add(buttonFahreinheit);
 		tela.getContentPane().add(buttonKelvin);
 		tela.getContentPane().add(labelResultado);
 		tela.getContentPane().add(labellMensagemErro);
-		
-		
-		//Listener
-		//Adicionando ao botão Fahreinheit
+
+		// Listener
+		// Adicionando ao botão Fahreinheit
 		buttonFahreinheit.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Temperatura temperatura = new Temperatura();
-				
-				double celsius = Double.parseDouble(textCelsius.getText());
-				
-				temperatura.setCelsius(celsius);
-				
-				labelResultado.setText(temperatura.converterParaFahreinheit() + " FAHREINHEIT!");
-				textCelsius.setText(null);
-				textCelsius.requestFocus();
+				try {
+					Temperatura temperatura = new Temperatura();
+					double celsius = Double.parseDouble(textCelsius.getText());
+					temperatura.setCelsius(celsius);
+
+					double fahreinheit = temperatura.converterParaFahreinheit();
+
+					labelResultado.setText(fahreinheit + " FAHREINHEIT!");
+					labellMensagemErro.setText(null);
+					textCelsius.requestFocus();
+
+				} catch (Exception ex) {
+					labellMensagemErro.setText("* Por favor, digite apenas caracteres numéricos (0-9)!");
+					textCelsius.setText(null);
+					textCelsius.requestFocus();
+				}
 			}
 		});
-		
-		//Adicionando ao botão Kelvin
+
+		// Adicionando ao botão Kelvin
 		buttonKelvin.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Temperatura temperatura = new Temperatura();
-				
-				double celsius = Double.parseDouble(textCelsius.getText());
-				
-				temperatura.setCelsius(celsius);
-				
-				labelResultado.setText(temperatura.converterParaKelvin() + " KELVIN!");
-				textCelsius.setText(null);
-				textCelsius.requestFocus();
-				
+				String valorCelsius = textCelsius.getText();
+
+				try {
+					Temperatura temperatura = new Temperatura();
+					double celsius = Double.parseDouble(valorCelsius);
+					temperatura.setCelsius(celsius);
+
+					double kelvin = temperatura.converterParaKelvin();
+
+					labelResultado.setText(kelvin + " KELVIN!");
+
+				} catch (NumberFormatException ex) {
+					labellMensagemErro.setText("* Por favor, digite apenas caracteres numéricos (0-9)!");
+					textCelsius.setText(null);
+					textCelsius.requestFocus();
+				}
+
 			}
 		});
-		
-		
-		//"Setando" se a tela será visível
+
+		// "Setando" se a tela será visível
 		tela.setVisible(true);
 	}
 
